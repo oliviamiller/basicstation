@@ -40,12 +40,14 @@ variant  ?= std
 
 LOCAL_ARCH := $(shell gcc -dumpmachine)
 
-ARCH.linux   = x86_64-linux-gnu
-ARCH.linuxV2 = x86_64-linux-gnu
-ARCH.linuxpico = x86_64-linux-gnu
-ARCH.corecell  = arm-linux-gnueabihf
-ARCH.rpi     = arm-linux-gnueabihf
-ARCH.kerlink = arm-klk-linux-gnueabi
+ARCH.linux      = x86_64-linux-gnu
+ARCH.linuxV2    = x86_64-linux-gnu
+ARCH.linuxpico  = x86_64-linux-gnu
+ARCH.corecell   = arm-linux-gnueabihf
+ARCH.corecell64 = aarch64-linux-gnu
+ARCH.rpi        = aarch64-linux-gnueabihf
+ARCH.rpi64      = arm-linux-gnu
+ARCH.kerlink    = arm-klk-linux-gnueabi
 ARCH=${ARCH.${platform}}
 
 export TDfull := $(shell cd ${TD} && pwd)
@@ -82,6 +84,7 @@ BD=build-${platform}-${variant}
 
 # -- Architecture specific
 CFG.arm-linux-gnueabihf = linux
+CFG.arm-linux-gnu       = linux
 # CFG.x86_64-linux-gnu    = linux
 
 # -- Variant specific
@@ -101,7 +104,8 @@ CFG.linux   = linux lgw1 no_leds
 CFG.linuxpico = linux lgw1 no_leds smtcpico
 CFG.linuxV2 = linux lgw2 no_leds lgw2genkey
 CFG.corecell = linux lgw1 no_leds sx1302
-CFG.rpi     = linux lgw1 no_leds
+CFG.corecell64 = linux lgw1 no_leds sx1302
+CFG.rpi64     = linux lgw1 no_leds
 CFG.kerlink = linux lgw1 no_leds
 
 SD.default = src-linux
@@ -112,7 +116,8 @@ DEPS.default = mbedtls lgw
 DEPS.linuxpico = mbedtls smtcpico
 DEPS.linuxV2 = mbedtls lgw2
 DEPS.corecell = mbedtls lgw1302
-DEPS.rpi     = mbedtls lgw
+DEPS.corecell64 = mbedtls lgw1302
+DEPS.rpi64     = mbedtls lgw
 
 DEPS = $(or ${DEPS.${platform}}, ${DEPS.default})
 
@@ -130,6 +135,7 @@ endif
 
 CFLAGS.linuxpico.debug = -g -O0
 CFLAGS.corecell.debug = -g -O0
+CFLAGS.corecell64.debug = -g -O0
 CFLAGS.linuxpico.debugn = -g -O0
 CFLAGS.linux.testsim  = -g -O0 --coverage
 CFLAGS.linux.testms   = -g -O0 --coverage
@@ -141,7 +147,9 @@ LIBS.linux   = -llgw   ${MBEDLIBS}      -lpthread
 LIBS.linuxV2 = -llgw2  ${MBEDLIBS} -lrt -lpthread -lspi
 LIBS.linuxpico = -llgw ${MBEDLIBS}      -lpthread
 LIBS.corecell = -llgw1302  ${MBEDLIBS}      -lpthread -lrt
+LIBS.corecell64 = -llgw1302  ${MBEDLIBS}      -lpthread -lrt
 LIBS.rpi     = -llgw   ${MBEDLIBS}      -lpthread
+LIBS.rpi64    = -llgw   ${MBEDLIBS}      -lpthread
 LIBS.kerlink = -llgw   ${MBEDLIBS} -lrt -lpthread
 
 xCFG     =     ${CFG.${ARCH}}     ${CFG.${platform}}     ${CFG.${variant}}    ${CFG.${platform}.${variant}}
