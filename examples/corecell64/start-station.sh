@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # --- Revised 3-Clause BSD License ---
 # Copyright Semtech Corporation 2022. All rights reserved.
@@ -26,30 +26,63 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-set -e
-cd $(dirname $0)
 
-lgwversion="V${lgwversion:-2.1.1}"
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
 
-if [[ ! -d git-repo ]]; then
-#    git clone https://github.com/Lora-net/sx1302_hal.git git-repo
-    git clone https://github.com/shawnbmccarthy/sx1302_hal.git git-repo
+# A POSIX variable
+OPTIND=1         # Reset in case getopts has been used previously in the shell.
+
+# Initialize our own variables:
+lns_config=""
+variant=std
+
+show_help()
+{
+   printf "$GREEN"
+   printf "\tUsage: ./start-station.sh -l {lns-home} -d\n"
+   printf "\t-l : LNS configuration folder \n"
+   printf "\t-d : To run debug variant of station\n"
+   printf "$NC"
+   printf "\t\t e.g: ./start-station.sh -l ./lns-ttn\n"
+   printf "\t\t      ./start-station.sh -dl ./lns-ttn\n"
+   exit
+}
+
+
+while getopts "h?dl:" opt; do
+    case "$opt" in
+    h|\?)
+        show_help
+        exit 0
+        ;;
+    d)  variant=debug
+        ;;
+    l)  lns_config=$OPTARG
+        ;;
+    esac
+done
+
+shift $((OPTIND-1))
+
+[ "${1:-}" = "--" ] && shift
+
+
+if [ -z "$lns_config" ]; then
+	printf "$RED"
+	printf "$RED \tError: No LNS home folder provided$NC\n"
+	printf "$NC"
+	show_help
 fi
 
-if [[ -z "${platform}" ]] || [[ -z "${variant}" ]]; then
-    echo "Expecting env vars platform/variant to be set - comes naturally if called from a makefile"
-    echo "If calling manually try: variant=std platform=corecell $0"
-    exit 1
-fi
+STATION_BIN="../../build-corecell64-$variant/bin/station"
 
-if [[ ! -d platform-${platform} ]]; then
-    echo "clone ${platform}"
-    (cd git-repo && git checkout tags/${lgwversion})
-    git clone -b ${lgwversion} git-repo platform-${platform}
 
-    cd platform-${platform}
-    if [ -f ../${lgwversion}-${platform}.patch ]; then
-        echo "Applying ${lgwversion}-${platform}.patch ..."
-        git apply ../${lgwversion}-${platform}.patch
-    fi
+if [ -f "$STATION_BIN" ]; then
+	printf "Using variant=$variant, lns_config='$lns_config'\n"
+	printf "$GREEN Starting Station ... $NC\n"
+	$STATION_BIN -h $lns_config
+else
+	printf "$RED [ERROR]: Binary not found @ $STATION_BIN $NC\n"
 fi
