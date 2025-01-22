@@ -505,30 +505,7 @@ index ffc8ec0..60e8387 100644
 +        ERROR_PRINTF("radio calibration failed\n");
          return LGW_HAL_ERROR;
      }
-
- 
-@@ -895,18 +899,18 @@ int lgw_start(void) {
-                     err = sx125x_setup(i, CONTEXT_BOARD.clksrc, true, CONTEXT_RF_CHAIN[i].type, CONTEXT_RF_CHAIN[i].freq_hz);
-                     break;
-                 default:
--                    printf("ERROR: RADIO TYPE NOT SUPPORTED (RF_CHAIN %d)\n", i);
-+                    ERROR_PRINTF("RADIO TYPE NOT SUPPORTED (RF_CHAIN %d)\n", i);
-                     return LGW_HAL_ERROR;
-             }
-             if (err != LGW_REG_SUCCESS) {
--                printf("ERROR: failed to setup radio %d\n", i);
-+                ERROR_PRINTF("failed to setup radio %d\n", i);
-                 return LGW_HAL_ERROR;
-             }
- 
-             /* Set radio mode */
-             err = sx1302_radio_set_mode(i, CONTEXT_RF_CHAIN[i].type);
-             if (err != LGW_REG_SUCCESS) {
--                printf("ERROR: failed to set mode for radio %d\n", i);
-+                ERROR_PRINTF("failed to set mode for radio %d\n", i);
-                 return LGW_HAL_ERROR;
-             }
-         }
+     
 @@ -915,54 +919,54 @@ int lgw_start(void) {
      /* Select the radio which provides the clock to the sx1302 */
      err = sx1302_radio_clock_select(CONTEXT_BOARD.clksrc);
