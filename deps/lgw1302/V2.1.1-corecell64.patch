@@ -1543,30 +1543,6 @@ index aa330cd..ab58109 100644
          return LGW_REG_ERROR;
      }
  
-@@ -540,12 +542,12 @@ int sx1302_radio_calibrate(struct lgw_conf_rxrf_s * context_rf_chain, uint8_t cl
-         DEBUG_MSG("Loading CAL fw for sx125x\n");
-         err = sx1302_agc_load_firmware(cal_firmware_sx125x);
-         if (err != LGW_REG_SUCCESS) {
--            printf("ERROR: Failed to load calibration fw\n");
-+            ERROR_PRINTF("Failed to load calibration fw\n");
-             return LGW_REG_ERROR;
-         }
-         err = sx1302_cal_start(FW_VERSION_CAL, context_rf_chain, txgain_lut);
-         if (err != LGW_REG_SUCCESS) {
--            printf("ERROR: radio calibration failed\n");
-+            ERROR_PRINTF("radio calibration failed\n");
-             sx1302_radio_reset(0, context_rf_chain[0].type);
-             sx1302_radio_reset(1, context_rf_chain[1].type);
-             return LGW_REG_ERROR;
-@@ -556,7 +558,7 @@ int sx1302_radio_calibrate(struct lgw_conf_rxrf_s * context_rf_chain, uint8_t cl
-             if (context_rf_chain[i].enable == true) {
-                 err = sx1250_calibrate(i, context_rf_chain[i].freq_hz);
-                 if (err != LGW_REG_SUCCESS) {
--                    printf("ERROR: radio calibration failed\n");
-+                    ERROR_PRINTF("radio calibration failed\n");
-                     return LGW_REG_ERROR;
-                 }
-             }
 @@ -871,7 +873,7 @@ int sx1302_lora_service_correlator_configure(struct lgw_conf_rxif_s * cfg) {
              err |= lgw_reg_w(SX1302_REG_RX_TOP_LORA_SERVICE_FSK_DETECT_ACC1_ACC_PNR, 52);
              break;
