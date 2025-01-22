@@ -128,12 +128,12 @@ static void parse_rfconf (ujdec_t* D, struct sx130xconf* sx130xconf, int rfidx) 
         case J_rssi_offset:    { rfconf->rssi_offset   = uj_num(D); break; }
         case J_type:           {
             uj_str(D);
-            /**/ if( D->str.crc == J_SX1255 ) rfconf->type = LGW_RADIO_TYPE_SX1255;
-            else if( D->str.crc == J_SX1257 ) rfconf->type = LGW_RADIO_TYPE_SX1257;
-            else if( D->str.crc == J_SX1272 ) rfconf->type = LGW_RADIO_TYPE_SX1272;
-            else if( D->str.crc == J_SX1276 ) rfconf->type = LGW_RADIO_TYPE_SX1276;
+            /**/ if( D->str.crc == J_SX1255 ) rfconf->radio_type = LGW_RADIO_TYPE_SX1255;
+            else if( D->str.crc == J_SX1257 ) rfconf->radio_type = LGW_RADIO_TYPE_SX1257;
+            else if( D->str.crc == J_SX1272 ) rfconf->radio_type = LGW_RADIO_TYPE_SX1272;
+            else if( D->str.crc == J_SX1276 ) rfconf->radio_type = LGW_RADIO_TYPE_SX1276;
 #if defined(CFG_sx1302)
-            else if( D->str.crc == J_SX1250 ) rfconf->type = LGW_RADIO_TYPE_SX1250;
+            else if( D->str.crc == J_SX1250 ) rfconf->radio_type = LGW_RADIO_TYPE_SX1250;
 #endif
             else uj_error(D, "Illegal value for field \"type\": %s", D->str.beg);
             break;
@@ -552,7 +552,7 @@ static void dump_rfConf (int chain, struct lgw_conf_rxrf_s* rfconf) {
         chain,
         rfconf->freq_hz,
         rfconf->rssi_offset,
-        rfconf->type,
+        rfconf->radio_type,
 #if defined(CFG_sx1302)
         rfconf->rssi_tcomp.coeff_a,
         rfconf->rssi_tcomp.coeff_b,
