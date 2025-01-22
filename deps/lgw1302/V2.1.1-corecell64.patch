@@ -466,38 +466,6 @@ index ffc8ec0..60e8387 100644
 +            ERROR_PRINTF("TX gain LUT: SX1250 power index must not exceed 22\n");
              return LGW_HAL_ERROR;
          }
- 
-@@ -802,11 +806,11 @@ int lgw_sx1261_setconf(struct lgw_conf_sx1261_s * conf) {
-     CONTEXT_SX1261.lbt_conf.nb_channel = conf->lbt_conf.nb_channel;
-     for (i = 0; i < CONTEXT_SX1261.lbt_conf.nb_channel; i++) {
-         if (conf->lbt_conf.channels[i].bandwidth != BW_125KHZ && conf->lbt_conf.channels[i].bandwidth != BW_250KHZ) {
--            printf("ERROR: bandwidth not supported for LBT channel %d\n", i);
-+            ERROR_PRINTF("bandwidth not supported for LBT channel %d\n", i);
-             return LGW_HAL_ERROR;
-         }
-         if (conf->lbt_conf.channels[i].scan_time_us != LGW_LBT_SCAN_TIME_128_US && conf->lbt_conf.channels[i].scan_time_us != LGW_LBT_SCAN_TIME_5000_US) {
--            printf("ERROR: scan_time_us not supported for LBT channel %d\n", i);
-+            ERROR_PRINTF("scan_time_us not supported for LBT channel %d\n", i);
-             return LGW_HAL_ERROR;
-         }
-         CONTEXT_SX1261.lbt_conf.channels[i] = conf->lbt_conf.channels[i];
-      }
-      
-@@ -970,12 +974,12 @@ int lgw_start(void) {
-     if (CONTEXT_IF_CHAIN[8].enable == true) {
-         err = sx1302_lora_service_correlator_configure(&(CONTEXT_LORA_SERVICE));
-         if (err != LGW_REG_SUCCESS) {
--            printf("ERROR: failed to configure SX1302 LoRa Service modem correlators\n");
-+            ERROR_PRINTF("failed to configure SX1302 LoRa Service modem correlators\n");
-             return LGW_HAL_ERROR;
-         }
-         err = sx1302_lora_service_modem_configure(&(CONTEXT_LORA_SERVICE), CONTEXT_RF_CHAIN[0].freq_hz);
-         if (err != LGW_REG_SUCCESS) {
--            printf("ERROR: failed to configure SX1302 LoRa Service modem\n");
-+            ERROR_PRINTF("failed to configure SX1302 LoRa Service modem\n");
-             return LGW_HAL_ERROR;
-         }
-     }
 @@ -984,7 +988,7 @@ int lgw_start(void) {
      if (CONTEXT_IF_CHAIN[9].enable == true) {
          err = sx1302_fsk_configure(&(CONTEXT_FSK));
