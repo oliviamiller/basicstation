@@ -466,6 +466,7 @@ index ffc8ec0..60e8387 100644
 +            ERROR_PRINTF("TX gain LUT: SX1250 power index must not exceed 22\n");
              return LGW_HAL_ERROR;
          }
+         
 @@ -984,7 +988,7 @@ int lgw_start(void) {
      if (CONTEXT_IF_CHAIN[9].enable == true) {
          err = sx1302_fsk_configure(&(CONTEXT_FSK));
