@@ -33,7 +33,7 @@ lgwversion="V${lgwversion:-2.1.1}"
 
 if [[ ! -d git-repo ]]; then
 #    git clone https://github.com/Lora-net/sx1302_hal.git git-repo
-    git clone https://github.com/shawnbmccarthy/sx1302_hal.git git-repo
+    git clone https://github.com/oliviamiller/sx1302_hal git-repo
 fi
 
 if [[ -z "${platform}" ]] || [[ -z "${variant}" ]]; then
