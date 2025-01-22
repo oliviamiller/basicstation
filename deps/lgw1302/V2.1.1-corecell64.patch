@@ -1542,22 +1542,6 @@ index aa330cd..ab58109 100644
          return LGW_REG_ERROR;
      }
  
-@@ -512,13 +514,13 @@ int sx1302_radio_calibrate(struct lgw_conf_rxrf_s * context_rf_chain, uint8_t cl
-         if (context_rf_chain[i].enable == true) {
-             err = sx1302_radio_reset(i, context_rf_chain[i].type);
-             if (err != LGW_REG_SUCCESS) {
--                printf("ERROR: failed to reset radio %d\n", i);
-+                ERROR_PRINTF("failed to reset radio %d\n", i);
-                 return LGW_REG_ERROR;
-             }
- 
-             err = sx1302_radio_set_mode(i, context_rf_chain[i].type);
-             if (err != LGW_REG_SUCCESS) {
--                printf("ERROR: failed to set radio %d mode\n", i);
-+                ERROR_PRINTF("failed to set radio %d mode\n", i);
-                 return LGW_REG_ERROR;
-             }
-         }
 @@ -526,7 +528,7 @@ int sx1302_radio_calibrate(struct lgw_conf_rxrf_s * context_rf_chain, uint8_t cl
      /* -- Select the radio which provides the clock to the sx1302 */
      err = sx1302_radio_clock_select(clksrc);
