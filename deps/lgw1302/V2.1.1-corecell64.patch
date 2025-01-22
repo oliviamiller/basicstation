@@ -481,7 +481,8 @@ index ffc8ec0..60e8387 100644
              return LGW_HAL_ERROR;
          }
          CONTEXT_SX1261.lbt_conf.channels[i] = conf->lbt_conf.channels[i];
- 
+      }
+      
 @@ -970,12 +974,12 @@ int lgw_start(void) {
      if (CONTEXT_IF_CHAIN[8].enable == true) {
          err = sx1302_lora_service_correlator_configure(&(CONTEXT_LORA_SERVICE));
