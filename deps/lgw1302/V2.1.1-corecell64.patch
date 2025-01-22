@@ -505,15 +505,7 @@ index ffc8ec0..60e8387 100644
 +        ERROR_PRINTF("radio calibration failed\n");
          return LGW_HAL_ERROR;
      }
- 
-@@ -881,7 +885,7 @@ int lgw_start(void) {
-             /* Reset the radio */
-             err = sx1302_radio_reset(i, CONTEXT_RF_CHAIN[i].type);
-             if (err != LGW_REG_SUCCESS) {
--                printf("ERROR: failed to reset radio %d\n", i);
-+                ERROR_PRINTF("failed to reset radio %d\n", i);
-                 return LGW_HAL_ERROR;
-             }
+
  
 @@ -895,18 +899,18 @@ int lgw_start(void) {
                      err = sx125x_setup(i, CONTEXT_BOARD.clksrc, true, CONTEXT_RF_CHAIN[i].type, CONTEXT_RF_CHAIN[i].freq_hz);
