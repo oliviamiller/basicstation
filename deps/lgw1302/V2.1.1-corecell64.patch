@@ -336,29 +336,6 @@ index ffc8ec0..60e8387 100644
          return LGW_HAL_ERROR;
      }
  
-@@ -499,19 +503,19 @@ int lgw_rxrf_setconf(uint8_t rf_chain, struct lgw_conf_rxrf_s * conf) {
- 
-     /* check input range (segfault prevention) */
-     if (rf_chain >= LGW_RF_CHAIN_NB) {
--        DEBUG_MSG("ERROR: NOT A VALID RF_CHAIN NUMBER\n");
-+        ERROR_PRINTF("NOT A VALID RF_CHAIN NUMBER\n");
-         return LGW_HAL_ERROR;
-     }
- 
-     /* check if radio type is supported */
-     if ((conf->type != LGW_RADIO_TYPE_SX1255) && (conf->type != LGW_RADIO_TYPE_SX1257) && (conf->type != LGW_RADIO_TYPE_SX1250)) {
--        DEBUG_PRINTF("ERROR: NOT A VALID RADIO TYPE (%d)\n", conf->type);
-+        ERROR_PRINTF("NOT A VALID RADIO TYPE (%d)\n", conf->type);
-         return LGW_HAL_ERROR;
-     }
- 
-     /* check if the radio central frequency is valid */
-     if ((conf->freq_hz < LGW_RF_RX_FREQ_MIN) || (conf->freq_hz > LGW_RF_RX_FREQ_MAX)) {
--        DEBUG_PRINTF("ERROR: NOT A VALID RADIO CENTER FREQUENCY, PLEASE CHECK IF IT HAS BEEN GIVEN IN HZ (%u)\n", conf->freq_hz);
-+        ERROR_PRINTF("NOT A VALID RADIO CENTER FREQUENCY, PLEASE CHECK IF IT HAS BEEN GIVEN IN HZ (%u)\n", conf->freq_hz);
-         return LGW_HAL_ERROR;
-     }
- 
 @@ -549,13 +553,13 @@ int lgw_rxif_setconf(uint8_t if_chain, struct lgw_conf_rxif_s * conf) {
  
      /* check if the concentrator is running */
